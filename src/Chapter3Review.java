@@ -1,41 +1,47 @@
-import  java.util.Scanner;
+import java.util.Scanner;
+
 public class Chapter3Review {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
 
         // --- 1. INPUT & SANITIZATION ---
+        System.out.print("Enter the code: ");
+        String raw = input.nextLine().trim();
 
-        // Remove whitespace from ends (Chapter 4.4)
+        // --- 2. STRING EXTRACTION ---
+        int firstDash = raw.indexOf('-');
+        int secondDash = raw.lastIndexOf('-');
 
-        // --- 2. STRING EXTRACTION (Chapter 4.4) ---
-        // We need to find the positions of the hyphens to split the string.
+        if (firstDash == -1 || secondDash == -1 || firstDash == secondDash) {
+            System.out.println("Invalid format. Expected: prefix-ID-suffix");
+            return;
+        }
 
-        // Handle error if dashes are missing
+        String prefix = raw.substring(0, firstDash);
+        String idStr = raw.substring(firstDash + 1, secondDash);
+        String suffix = raw.substring(secondDash + 1);
 
-        // VISUALIZATION:
-        // "t x - 2 4 9 1 - a l p h a"
-        //  0 1 2 3 4 5 6 7 8 9 ...
-        // substring(0, 2) gets 0 and 1, stops before 2.
+        // --- 3. CHARACTER ANALYSIS ---
+        char firstChar = prefix.charAt(0);
 
-        // --- 3. CHARACTER ANALYSIS (Chapter 4.3) ---
-        // Get the first character of the prefix
+        if (!Character.isLetter(firstChar)) {
+            System.out.println("Prefix must start with a letter.");
+            return;
+        }
 
-        // specific Character class method to check if it's a letter
+        char upperChar = Character.toUpperCase(firstChar);
 
-        // Convert to uppercase char
+        // --- 4. MATHEMATICAL CALCULATION ---
+        int id = Integer.parseInt(idStr);
+        double result = Math.sqrt(Math.pow(id, 3));
 
-        // --- 4. MATHEMATICAL CALCULATION (Chapter 4.2) ---
-        // Convert the string "2491" into integer 2491
+        // --- 5. FORMATTED OUTPUT ---
+        System.out.println("\nRESULT");
+        System.out.printf("%-10s %-10d %-10.3f%n",
+                String.valueOf(upperChar),
+                id,
+                result);
 
-        // Formula: Sqrt(ID^3)
-        // We use Math.pow(base, exponent) and Math.sqrt(value)
-
-        // --- 5. FORMATTED OUTPUT (Chapter 4.6) ---
-
-        // %-10s : String, Left-aligned, 10 spaces wide
-        // %-10d : Integer, Left-aligned, 10 spaces wide
-        // %-10.3f : Float, Left-aligned, 10 spaces wide, exactly 3 decimal places
-
+        input.close();
     }
-
 }
